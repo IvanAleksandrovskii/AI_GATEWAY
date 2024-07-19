@@ -1,11 +1,5 @@
-import enum
-from sqlalchemy import Column, String, Enum, Integer
-
+from sqlalchemy import Column, String, Integer
 from core.models import Base
-
-
-class ProviderType(enum.Enum):
-    AIMLAPI = "AIMLAPI"
 
 
 class AIProvider(Base):
@@ -13,4 +7,3 @@ class AIProvider(Base):
     api_url = Column(String)
     api_key = Column(String)
     priority = Column(Integer)
-    provider_type = Column(Enum(ProviderType))
