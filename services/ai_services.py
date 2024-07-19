@@ -41,7 +41,7 @@ async def get_ai_response(db: AsyncSession, message: str) -> Response:
         if response:
             return Response(request_content=message, content=response, ai_model=model.name)
 
-    return Response(content="No response from AI models.", ai_model="None")
+    return Response(content="No response from AI models.", ai_model="None", request_content=message)
 
 
 async def get_ai_models(db: AsyncSession) -> list[str]:
