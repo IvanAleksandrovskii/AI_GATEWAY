@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   pg:
     image: postgres
@@ -7,4 +8,35 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     ports:
 #      Hardcoded port
-      - 5432:5432
+      - "5432:5432"
+    networks:
+      - microservice-network
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${APP_CONFIG_PORT:-8000}:8000"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-postgres_db}
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+
+      POSTGRES_DEBUG: ${POSTGRES_DEBUG:-0}
+      POSTGRES_POOL_SIZE: ${POSTGRES_POOL_SIZE:-5}
+      POSTGRES_MAX_OVERFLOW: ${POSTGRES_MAX_OVERFLOW:-10}
+
+      APP_RUN_HOST: ${APP_RUN_HOST:-0.0.0.0}
+      APP_RUN_PORT: ${APP_RUN_PORT:-8000}
+      DEBUG: ${DEBUG:-0}
+
+    command: /app/start.sh
+    depends_on:
+      - pg
+    networks:
+      - microservice-network
+
+networks:
+  microservice-network:
+    external: false
+    driver: bridge
