@@ -6,4 +6,5 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     ports:
+#      Hardcoded port
       - 5432:5432
