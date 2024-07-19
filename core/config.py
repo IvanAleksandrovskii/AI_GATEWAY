@@ -11,13 +11,20 @@ load_dotenv(".env")
 POSTGRES_DB = os.getenv("POSTGRES_DB")
 POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+POSTGRES_DEBUG = bool(os.getenv("POSTGRES_DEBUG"))
+POSTGRES_POOL_SIZE = int(os.getenv("POSTGRES_POOL_SIZE"))
+POSTGRES_MAX_OVERFLOW = int(os.getenv("POSTGRES_MAX_OVERFLOW"))
+
+APP_RUN_HOST = str(os.getenv("APP_RUN_HOST"))
+APP_RUN_PORT = int(os.getenv("APP_RUN_PORT"))
+DEBUG = bool(os.getenv("DEBUG"))
 
 
 class RunConfig(BaseModel):
-    host: str = "0.0.0.0"
-    port: int = 8000
+    host: str = APP_RUN_HOST
+    port: int = APP_RUN_PORT
     # TODO: unused now
-    debug: bool = True
+    debug: bool = DEBUG
 
 
 class APIConfig(BaseModel):
@@ -26,9 +33,9 @@ class APIConfig(BaseModel):
 
 class DBConfig(BaseModel):
     url: PostgresDsn = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@0.0.0.0:5432/{POSTGRES_DB}"
-    debug: bool = True
-    pool_size: int = 5
-    max_overflow: int = 10
+    debug: bool = POSTGRES_DEBUG
+    pool_size: int = POSTGRES_POOL_SIZE
+    max_overflow: int = POSTGRES_MAX_OVERFLOW
 
     naming_convention: dict[str, str] = {
         "ix": "ix_%(column_0_label)s",
