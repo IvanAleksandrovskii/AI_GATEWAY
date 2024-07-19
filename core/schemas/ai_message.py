@@ -8,5 +8,6 @@ class Message(BaseModel):
 
 
 class Response(BaseModel):
+    request_content: str
     content: str
     ai_model: str

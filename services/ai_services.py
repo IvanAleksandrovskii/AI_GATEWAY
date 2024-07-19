@@ -39,7 +39,7 @@ async def get_ai_response(db: AsyncSession, message: str) -> Response:
     for model in ai_models:
         response = await query_ai_model(model, message)
         if response:
-            return Response(content=response, ai_model=model.name)
+            return Response(request_content=message, content=response, ai_model=model.name)
 
     return Response(content="No response from AI models.", ai_model="None")
 
