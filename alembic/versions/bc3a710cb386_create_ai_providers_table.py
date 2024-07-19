@@ -1,8 +1,8 @@
 """create ai_providers table
 
-Revision ID: 4aea7791fbf6
+Revision ID: bc3a710cb386
 Revises: 
-Create Date: 2024-07-19 12:54:01.882577
+Create Date: 2024-07-19 17:11:05.017859
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '4aea7791fbf6'
+revision: str = 'bc3a710cb386'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
