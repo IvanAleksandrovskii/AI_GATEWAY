@@ -25,7 +25,7 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 # target_metadata = None
 
-config.set_main_option("sqlalchemy.url", str(settings.db.url_sync))
+config.set_main_option("sqlalchemy.url", str(settings.db.url))
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
