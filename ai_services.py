@@ -1,3 +1,4 @@
+from typing import Optional
 import httpx
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -6,7 +7,7 @@ from core.schemas import Response
 from core.models import AIProvider
 
 
-async def query_aimlapi(model: AIProvider, message: str):
+async def query_aimlapi(model: AIProvider, message: str) -> Optional[str]:
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(
@@ -24,13 +25,13 @@ async def query_aimlapi(model: AIProvider, message: str):
             return None
 
 
-async def query_ai_model(model: AIProvider, message: str):
+async def query_ai_model(model: AIProvider, message: str) -> Optional[str]:
     if model.name == "AIMLapi":
         return await query_aimlapi(model, message)
     return None
 
 
-async def get_ai_response(db: AsyncSession, message: str):
+async def get_ai_response(db: AsyncSession, message: str) -> Response:
     models_query = select(AIProvider).order_by(AIProvider.priority)
     result = await db.execute(models_query)
     ai_models = result.scalars().all()
