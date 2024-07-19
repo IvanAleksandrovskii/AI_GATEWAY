@@ -42,3 +42,16 @@ async def get_ai_response(db: AsyncSession, message: str) -> Response:
             return Response(content=response, ai_model=model.name)
 
     return Response(content="No response from AI models.", ai_model="None")
+
+
+async def get_ai_models(db: AsyncSession) -> list[str]:
+    models_list = []
+
+    models_query = select(AIProvider).order_by(AIProvider.priority)
+    result = await db.execute(models_query)
+    ai_models = result.scalars().all()
+
+    for model in ai_models:
+        models_list.append(model.name)
+
+    return models_list
