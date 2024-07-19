@@ -26,8 +26,6 @@ class APIConfig(BaseModel):
 
 class DBConfig(BaseModel):
     url: PostgresDsn = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@0.0.0.0:5432/{POSTGRES_DB}"
-    # URL for migrations
-    url_sync: PostgresDsn = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@0.0.0.0:5432/{POSTGRES_DB}"
     debug: bool = True
     pool_size: int = 5
     max_overflow: int = 10
@@ -52,5 +50,4 @@ settings = Settings()
 if settings.db.debug:
     # TODO: prints in debug mode with every every time file uses settings as import runs.
     #  For project start purposes keeping it for now here
-    print(f"Database URL: {settings.db.url} \n"
-          f"Database URL sync (used for migrations): {settings.db.url_sync}")
+    print(f"Database URL: {settings.db.url}")
