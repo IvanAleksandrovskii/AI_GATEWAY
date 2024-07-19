@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from core.models import db_helper
 from core.schemas import Response, Message
 
-import ai_services
+from services import ai_services
 
 router = APIRouter()
 
