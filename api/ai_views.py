@@ -20,6 +20,7 @@ async def process_message(
     return await get_ai_response(db, message.content, ai_model)
 
 
+# TODO: view returns list of strings. Need to improve to json and rebuild for business logic
 @router.get("/models", response_model=List[str])
 async def get_all_ai_models(db: AsyncSession = Depends(db_helper.session_getter)):
     return await get_ai_models(db)
