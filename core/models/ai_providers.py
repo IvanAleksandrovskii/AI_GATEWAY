@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, Integer
-from core.models import Base
 from typing import Dict, Any, Optional
+
+from core.models import Base
 
 
 class AIProvider(Base):

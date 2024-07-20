@@ -1,10 +1,11 @@
+import string
+import secrets
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import cast, DateTime
-from sqlalchemy import select, func, delete
-from core.models.token import Token
-import secrets
-import string
+from sqlalchemy import select, func   # , update, delete
+
+from core.models import Token
 
 
 def generate_token(length=32):
