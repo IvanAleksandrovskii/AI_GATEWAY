@@ -17,6 +17,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Shutdown
     await db_helper.dispose()
 
+    # TODO: Idea how to clean up expired tokens
+    # async with db_helper.session_getter() as session:
+    #     await cleanup_expired_tokens(session)
+
 
 main_app = FastAPI(lifespan=lifespan)
 
