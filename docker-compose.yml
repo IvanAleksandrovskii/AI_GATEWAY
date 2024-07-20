@@ -11,6 +11,8 @@ services:
       - "5432:5432"
     networks:
       - microservice-network
+    volumes:
+      - pg_data:/var/lib/postgresql/data
   web:
     build:
       context: .
@@ -36,6 +38,8 @@ services:
       - pg
     networks:
       - microservice-network
+    volumes:
+      - .:/app
 
   pgadmin:
     image: dpage/pgadmin4
@@ -48,8 +52,14 @@ services:
       - pg
     networks:
       - microservice-network
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
 
 networks:
   microservice-network:
     external: false
     driver: bridge
+
+volumes:
+  pg_data:
+  pgadmin_data:
