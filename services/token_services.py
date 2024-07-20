@@ -53,5 +53,5 @@ async def create_new_token_if_needed(db: AsyncSession):
 # TODO: Idea how to clean up expired tokens
 # async def cleanup_expired_tokens(db: AsyncSession):
 #     current_time = datetime.now(timezone.utc)
-#     await db.execute(delete(Token).where(Token.expires_at < current_time))
+#     await db.execute(delete(Token).where(Token.is_active == False))
 #     await db.commit()
