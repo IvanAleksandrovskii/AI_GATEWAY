@@ -18,6 +18,7 @@ services:
     ports:
       - "${APP_CONFIG_PORT:-8000}:8000"
     environment:
+      PYTHONPATH: /app
       POSTGRES_DB: ${POSTGRES_DB:-postgres_db}
       POSTGRES_USER: ${POSTGRES_USER:-user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}

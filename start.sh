@@ -5,7 +5,7 @@ POSTGRES_PORT=5432
 while ! nc -z pg "$POSTGRES_PORT"; do sleep 1; done
 
 # Set the python path
-export PYTHONPATH=$(pwd)
+export PYTHONPATH=$(pwd):$(pwd)/app
 # Run migrations
 alembic upgrade head
 
