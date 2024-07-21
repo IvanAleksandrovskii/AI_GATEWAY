@@ -59,6 +59,9 @@ async def get_latest_active_token(db: AsyncSession):
     result = await db.execute(
         select(Token)
         .where(Token.is_active == True)
+        # TODO: is_active == True makes exactly the same as
+        #  (Token.expires_at > cast(func.now(), DateTime(timezone=True))) (the one down below)
+        #   keeping it for double checking purposes, mb remove it in the future
         .where(Token.expires_at > cast(func.now(), DateTime(timezone=True)))
         .order_by(Token.created_at.desc())
         .limit(1)
