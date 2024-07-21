@@ -3,7 +3,7 @@ from typing import Optional, List
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from api import validate_token_header
+from api.dependencies import validate_token_header
 from core.models import db_helper
 from core.schemas import Response, Message
 
