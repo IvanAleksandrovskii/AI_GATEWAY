@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import cast, DateTime
 from sqlalchemy import select, func   # , delete
 
+from core import settings
 from core.models import Token
 
 
@@ -13,7 +14,8 @@ def generate_token(length=32):
     return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 
-async def create_token(db: AsyncSession, expiration_minutes=300):
+async def create_token(db: AsyncSession, expiration_minutes=settings.token.expiration_minutes):
+    # expiration_days=settings.token.expiration_days
     """
     Create a new token with specified expiration time.
 

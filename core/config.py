@@ -19,6 +19,10 @@ APP_RUN_HOST = str(os.getenv("APP_RUN_HOST"))
 APP_RUN_PORT = int(os.getenv("APP_RUN_PORT"))
 DEBUG = bool(os.getenv("DEBUG"))
 
+TOKEN_EXPIRATION_MINUTES = int(os.getenv("TOKEN_EXPIRATION_MINUTES"))
+# TODO: unused now
+TOKEN_EXPIRATION_DAYS = int(os.getenv("TOKEN_EXPIRATION_DAYS", "30"))
+
 
 class RunConfig(BaseModel):
     host: str = APP_RUN_HOST
@@ -46,10 +50,17 @@ class DBConfig(BaseModel):
     }
 
 
+class TokenConfig(BaseModel):
+    expiration_minutes: int = TOKEN_EXPIRATION_MINUTES
+    # TODO: unused now
+    expiration_days: int = TOKEN_EXPIRATION_DAYS
+
+
 class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     api: APIConfig = APIConfig()
     db: DBConfig = DBConfig()
+    token: TokenConfig = TokenConfig()
 
 
 settings = Settings()

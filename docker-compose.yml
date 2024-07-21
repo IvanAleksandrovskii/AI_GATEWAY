@@ -33,6 +33,10 @@ services:
       APP_RUN_PORT: ${APP_RUN_PORT:-8000}
       DEBUG: ${DEBUG:-0}
 
+      TOKEN_EXPIRATION_MINUTES: ${TOKEN_EXPIRATION_MINUTES:-30}
+      # TODO: unused now
+      TOKEN_EXPIRATION_DAYS: ${TOKEN_EXPIRATION_DAYS:-30}
+
     command: /app/start.sh
     depends_on:
       - pg
