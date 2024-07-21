@@ -42,8 +42,8 @@ services:
       - pg
     networks:
       - microservice-network
-    volumes:
-      - .:/app
+#    volumes:
+#      - .:/app
 
 # TODO: WARNING: pgadmin only for dev, not for prod
   pgadmin:

@@ -9,12 +9,12 @@ RUN apt-get update && apt-get install -y netcat-openbsd
 # Create a working directory
 WORKDIR /app
 
-# Copy project files to the container
-COPY . /app
-
 # Copy and install requirements.txt
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project files to the container
+COPY . /app
 
 # Ensure start.sh has executable permissions
 RUN chmod +x /app/start.sh
