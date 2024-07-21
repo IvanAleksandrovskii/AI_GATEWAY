@@ -63,6 +63,12 @@ async def get_ai_response(db: AsyncSession, message: str, specific_model: Option
 
 # TODO: view returns list of strings. Need to improve to json and rebuild for business logic
 async def get_ai_models(db: AsyncSession) -> List[str]:
+    """
+    Get a list of AI model names from the database.
+
+    :param db: AsyncSession for database operations
+    :return: List of AI model names (AIProvider.name)
+    """
     models_query = select(AIProvider).order_by(AIProvider.priority)
     result = await db.execute(models_query)
     ai_models = result.scalars().all()

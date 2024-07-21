@@ -13,4 +13,9 @@ class Token(Base):
 
     @hybrid_property
     def is_active(self):
+        """
+        Check if the token is active by comparing its expiration time with the current time.
+
+        :return: Boolean indicating if the token is active
+        """
         return self.expires_at > datetime.now(timezone.utc)

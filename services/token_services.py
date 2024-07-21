@@ -50,6 +50,12 @@ async def validate_token(db: AsyncSession, token: str):
 
 
 async def get_latest_active_token(db: AsyncSession):
+    """
+    Get the latest active token from the database.
+
+    :param db: AsyncSession for database operations
+    :return: Token object or None if no token is found
+    """
     result = await db.execute(
         select(Token)
         .where(Token.is_active == True)
@@ -61,6 +67,12 @@ async def get_latest_active_token(db: AsyncSession):
 
 
 async def create_new_token_if_needed(db: AsyncSession):
+    """
+    Create a new token if no token is found an active one in the database.
+
+    :param db: AsyncSession for database operations
+    :return: Token object
+    """
     latest_token = await get_latest_active_token(db)
     if not latest_token or not latest_token.is_active:
         return await create_token(db)
