@@ -46,7 +46,7 @@ docker compose up --build
     
 
 ### Get a token
-1. Go to docker container environment and run:
+1. Go to docker container environment and run (not from here!):
 ```shell
 python3 scripts/generate_token.py
 ```
