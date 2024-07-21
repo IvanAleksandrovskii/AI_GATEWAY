@@ -1,0 +1,17 @@
+name: AI_gateway
+id: 'ari:cloud:compass:9c0a586e-910c-4824-8870-8bb8c8b7dd00:component/5ee07594-871f-4a33-b999-f95460b9d9e1/08369815-d145-4b76-a48e-126f4b8c6c53'
+description: null
+configVersion: 1
+typeId: SERVICE
+ownerId: 'ari:cloud:identity::team/65e1c6a6-f456-4ded-b0cf-0ede8afa361c'
+fields:
+  tier: 4
+links:
+  - name: null
+    type: REPOSITORY
+    url: 'https://bitbucket.org/my_fastapi_projects/ai_gateway/src/auth/'
+relationships: {}
+labels: null
+customFields: null
+# Подробнее о форматировании compass.yml:
+# https://go.atlassian.com/compass-yml-format
