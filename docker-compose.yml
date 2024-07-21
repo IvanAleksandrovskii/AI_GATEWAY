@@ -45,6 +45,7 @@ services:
     volumes:
       - .:/app
 
+# TODO: WARNING: pgadmin only for dev, not for prod
   pgadmin:
     image: dpage/pgadmin4
     environment:

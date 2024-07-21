@@ -43,6 +43,8 @@ docker compose up --build
     
     - TOKEN_EXPIRATION_MINUTES=<your_token_expiration_minutes>
     - #### TOKEN_EXPIRATION_DAYS (WARNING: for now unused)
+    - #### PGADMIN_DEFAULT_EMAIL (WARNING: pgadmin only for dev, not for prod)
+    - #### PGADMIN_DEFAULT_PASSWORD (WARNING: pgadmin only for dev, not for prod)
     
 
 ### Get a token
