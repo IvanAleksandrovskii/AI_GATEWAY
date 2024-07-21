@@ -29,7 +29,7 @@ docker compose up --build
 ```
 
 ### Environment Variables
-1. Create .env or fill docker-compose with fallowing variables:
+1. Create .env or fill docker-compose with following variables:
     - POSTGRES_DB=<your_postgres_db>
     - POSTGRES_USER=<your_postgres_user>
     - POSTGRES_PASSWORD=<your_postgres_password>
