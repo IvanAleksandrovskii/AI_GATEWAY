@@ -8,7 +8,7 @@ with token-based authentication.
 ## Features
 - Multiple AI provider support
 - Easily extendable to integrate with various AI providers
-- Asynchronous database operations
+- Utilizes asynchronous database operations, HTTP clients, and application logic to ensure high performance and responsiveness
 - Docker support for easy deployment
 - Configurable with environment variables
 - Token-based authentication
