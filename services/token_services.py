@@ -3,7 +3,7 @@ import secrets
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import cast, DateTime
-from sqlalchemy import select, func   # , update, delete
+from sqlalchemy import select, func   # , delete
 
 from core.models import Token
 
@@ -14,6 +14,13 @@ def generate_token(length=32):
 
 
 async def create_token(db: AsyncSession, expiration_minutes=300):
+    """
+    Create a new token with specified expiration time.
+
+    :param db: AsyncSession for database operations
+    :param expiration_minutes: Token validity period in minutes
+    :return: New Token object
+    """
     token = generate_token()
     expires_at = datetime.now(timezone.utc) + timedelta(minutes=expiration_minutes)
     db_token = Token(token=token, expires_at=expires_at)
@@ -24,6 +31,13 @@ async def create_token(db: AsyncSession, expiration_minutes=300):
 
 
 async def validate_token(db: AsyncSession, token: str):
+    """
+    Validate the given token.
+
+    :param db: AsyncSession for database operations
+    :param token: Token string to validate
+    :return: Boolean indicating if the token is valid and active
+    """
     result = await db.execute(select(Token).where(Token.token == token))
     db_token = result.scalars().first()
     if db_token:

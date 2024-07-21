@@ -7,7 +7,15 @@ from core.schemas import Response
 from core.models import AIProvider
 
 
+# TODO: Improve error handling
 async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
+    """
+    Send a query to the specified AI provider and return the response.
+
+    :param model: AIProvider model containing API details
+    :param message: User's input message
+    :return: AI-generated response or None if request fails
+    """
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(
@@ -23,6 +31,14 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
 
 
 async def get_ai_response(db: AsyncSession, message: str, specific_model: Optional[str] = None) -> Response:
+    """
+    Get an AI response for the given message, optionally from a specific AI model.
+
+    :param db: AsyncSession for database operations
+    :param message: User's input message
+    :param specific_model: Optional name of a specific AI model to use
+    :return: Response object containing the AI-generated content
+    """
     if specific_model:
         model = await db.execute(select(AIProvider).where(AIProvider.name == specific_model))
         model = model.scalar_one_or_none()
