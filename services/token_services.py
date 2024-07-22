@@ -40,7 +40,7 @@ async def validate_token(db: AsyncSession, token: str):
     :param token: Token string to validate
     :return: Boolean indicating if the token is valid and active
     """
-    result = await db.execute(select(Token).where(Token.token == token))
+    result = await db.execute(select(Token).where(Token.value == token))
     db_token = result.scalars().first()
     if db_token:
         if db_token.is_active is False:

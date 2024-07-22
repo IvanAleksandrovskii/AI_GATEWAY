@@ -11,7 +11,6 @@ load_dotenv(".env")
 POSTGRES_DB = os.getenv("POSTGRES_DB")
 POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
-POSTGRES_DEBUG = bool(os.getenv("POSTGRES_DEBUG"))
 POSTGRES_POOL_SIZE = int(os.getenv("POSTGRES_POOL_SIZE"))
 POSTGRES_MAX_OVERFLOW = int(os.getenv("POSTGRES_MAX_OVERFLOW"))
 
@@ -37,7 +36,7 @@ class APIConfig(BaseModel):
 
 class DBConfig(BaseModel):
     url: PostgresDsn = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@pg:5432/{POSTGRES_DB}"
-    debug: bool = POSTGRES_DEBUG
+    debug: bool = DEBUG
     pool_size: int = POSTGRES_POOL_SIZE
     max_overflow: int = POSTGRES_MAX_OVERFLOW
 

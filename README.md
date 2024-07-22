@@ -33,7 +33,6 @@ docker compose up --build
     - POSTGRES_DB=<your_postgres_db>
     - POSTGRES_USER=<your_postgres_user>
     - POSTGRES_PASSWORD=<your_postgres_password>
-    - POSTGRES_DEBUG=<0_or_1>
     - POSTGRES_POOL_SIZE=<your_postgres_pool_size>
     - POSTGRES_MAX_OVERFLOW=<your_postgres_max_overflow>
     

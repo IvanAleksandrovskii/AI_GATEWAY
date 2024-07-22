@@ -7,10 +7,9 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     ports:
-#      Hardcoded port
       - "5432:5432"
     networks:
-      - microservice-network
+      - ai-gateway-microservice
     volumes:
       - pg_data:/var/lib/postgresql/data
   web:
@@ -18,7 +17,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${APP_CONFIG_PORT:-8000}:8000"
+      - "${APP_RUN_PORT:-8000}:8000"
     environment:
       PYTHONPATH: /app
       POSTGRES_DB: ${POSTGRES_DB:-postgres_db}
@@ -41,7 +40,7 @@ services:
     depends_on:
       - pg
     networks:
-      - microservice-network
+      - ai-gateway-microservice
 #    volumes:
 #      - .:/app
 
@@ -56,12 +55,12 @@ services:
     depends_on:
       - pg
     networks:
-      - microservice-network
+      - ai-gateway-microservice
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
 networks:
-  microservice-network:
+  ai-gateway-microservice:
     external: false
     driver: bridge
 
