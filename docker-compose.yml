@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+
   pg:
     image: postgres
     environment:
@@ -12,6 +13,7 @@ services:
       - ai-gateway-microservice
     volumes:
       - pg_data:/var/lib/postgresql/data
+
   web:
     build:
       context: .
