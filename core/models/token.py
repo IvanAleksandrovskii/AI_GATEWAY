@@ -7,7 +7,7 @@ from core.models import Base
 
 
 class Token(Base):
-    token = Column(String, unique=True, index=True, nullable=False)
+    value = Column(String, unique=True, index=True, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     expires_at = Column(DateTime(timezone=True), nullable=False)
 
