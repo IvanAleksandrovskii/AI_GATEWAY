@@ -14,17 +14,16 @@ def generate_token(length=32):
     return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 
-async def create_token(db: AsyncSession, expiration_minutes=settings.token.expiration_minutes):
-    # expiration_days=settings.token.expiration_days
+async def create_token(db: AsyncSession, expiration_days=settings.token.expiration_days):
     """
     Create a new token with specified expiration time.
 
     :param db: AsyncSession for database operations
-    :param expiration_minutes: Token validity period in minutes
+    :param expiration_days: Token validity period in minutes
     :return: New Token object
     """
     token = generate_token()
-    expires_at = datetime.now(timezone.utc) + timedelta(minutes=expiration_minutes)
+    expires_at = datetime.now(timezone.utc) + timedelta(days=expiration_days)
     db_token = Token(token=token, expires_at=expires_at)
     db.add(db_token)
     await db.commit()
