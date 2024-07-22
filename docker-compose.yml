@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - ai-gateway-microservice
+      - ai-gateway-microservice-inner
     volumes:
       - pg_data:/var/lib/postgresql/data
 
@@ -40,7 +40,7 @@ services:
     depends_on:
       - pg
     networks:
-      - ai-gateway-microservice
+      - ai-gateway-microservice-inner
 #    volumes:
 #      - .:/app
 
@@ -55,12 +55,12 @@ services:
     depends_on:
       - pg
     networks:
-      - ai-gateway-microservice
+      - ai-gateway-microservice-inner
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
 networks:
-  ai-gateway-microservice:
+  ai-gateway-microservice-inner:
     external: false
     driver: bridge
 
