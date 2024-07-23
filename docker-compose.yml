@@ -2,7 +2,8 @@ version: '3.8'
 services:
 
   pg:
-    image: postgres
+    # image: postgres:13 or any later (just not sure about older versions, maybe ok :))
+    image: postgres:latest
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-postgres_db}
       POSTGRES_USER: ${POSTGRES_USER:-user}

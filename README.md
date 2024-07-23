@@ -29,22 +29,51 @@ docker compose up --build
 ```
 
 ### Environment Variables
-1. Create .env or fill docker-compose with following variables:
-    - POSTGRES_DB=<your_postgres_db>
-    - POSTGRES_USER=<your_postgres_user>
-    - POSTGRES_PASSWORD=<your_postgres_password>
-    - POSTGRES_POOL_SIZE=<your_postgres_pool_size>
-    - POSTGRES_MAX_OVERFLOW=<your_postgres_max_overflow>
+
+1. Create a `.env` file or fill in the `docker-compose` file with the following variables:
+
+   - **PostgreSQL Configuration:**
+     - `POSTGRES_DB=<your_postgres_db>`
+       - The name of your PostgreSQL database.
+       - Example: `POSTGRES_DB=postgres_db`
+     - `POSTGRES_USER=<your_postgres_user>`
+       - The username for connecting to your PostgreSQL database.
+       - Example: `POSTGRES_USER=user`
+     - `POSTGRES_PASSWORD=<your_postgres_password>`
+       - The password for connecting to your PostgreSQL database.
+       - Example: `POSTGRES_PASSWORD=password`
+     - `POSTGRES_POOL_SIZE=<your_postgres_pool_size>`
+       - The size of the connection pool for PostgreSQL. This determines how many connections are maintained to the database.
+       - Example: `POSTGRES_POOL_SIZE=5`
+     - `POSTGRES_MAX_OVERFLOW=<your_postgres_max_overflow>`
+       - The maximum number of connections that can be created above the pool size.
+       - Example: `POSTGRES_MAX_OVERFLOW=10`
     
-    - APP_RUN_HOST=<your_app_run_host>
-    - APP_RUN_PORT=<your_app_run_port>
-    - DEBUG=<0_or_1>
-    
-    - TOKEN_EXPIRATION_MINUTES=<your_token_expiration_minutes>
-    - #### TOKEN_EXPIRATION_DAYS (WARNING: for now unused)
-    - #### PGADMIN_DEFAULT_EMAIL (WARNING: pgadmin only for dev, not for prod)
-    - #### PGADMIN_DEFAULT_PASSWORD (WARNING: pgadmin only for dev, not for prod)
-    
+   - **Application Configuration:**
+     - `APP_RUN_HOST=<your_app_run_host>`
+       - The host on which the application will run.
+       - Example: `APP_RUN_HOST=0.0.0.0`
+     - `APP_RUN_PORT=<your_app_run_port>`
+       - The port on which the application will run.
+       - Example: `APP_RUN_PORT=8000`
+     - `DEBUG=<0_or_1>`
+       - Enable or disable debug mode. Use `1` to enable and `0` to disable.
+       - Example: `DEBUG=0`
+
+   - **Authentication Configuration:**
+     - `TOKEN_EXPIRATION_DAYS=<your_token_expiration_days>`
+       - The number of days before the authentication token expires.
+       - Example: `TOKEN_EXPIRATION_DAYS=30`
+
+   - **pgAdmin Configuration (Development Only)**
+     **Note**: pgAdmin should only be used in a development environment and not in production.
+     - `PGADMIN_DEFAULT_EMAIL=<your_pgadmin_email>`
+       - The default email address for pgAdmin login.
+       - Example: `PGADMIN_DEFAULT_EMAIL=admin@example.com`
+     - `PGADMIN_DEFAULT_PASSWORD=<your_pgadmin_password>`
+       - The default password for pgAdmin login.
+       - Example: `PGADMIN_DEFAULT_PASSWORD=admin_password`
+
 
 ### Get a token
 1. Go to docker container environment and run (not from here!):
