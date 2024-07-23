@@ -1,16 +1,13 @@
-from typing import AsyncGenerator
-
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, async_sessionmaker, AsyncSession
-
-from core import settings
+from sqlalchemy.ext.asyncio import (create_async_engine, AsyncEngine,
+                                    async_sessionmaker, AsyncSession)
+from core import settings, logger
 
 
 class DataBaseHelper:
-    def __init__(self, url: str, echo: bool, echo_pool: bool, pool_size: int, max_overflow: int):
+    def __init__(self, url: str, echo: bool, pool_size: int, max_overflow: int):
         self.engine: AsyncEngine = create_async_engine(
             url=url,
             echo=echo,
-            echo_pool=echo_pool,
             pool_size=pool_size,
             max_overflow=max_overflow,
         )
@@ -24,15 +21,16 @@ class DataBaseHelper:
     async def dispose(self) -> None:
         await self.engine.dispose()
 
-    async def session_getter(self) -> AsyncGenerator[AsyncSession, None]:
+    async def session_getter(self) -> AsyncSession:
         async with self.session_factory() as session:
             yield session
 
 
 db_helper = DataBaseHelper(
     url=str(settings.db.url),
-    echo=settings.db.debug,
-    echo_pool=settings.db.debug,
+    echo=settings.run.debug,
     pool_size=settings.db.pool_size,
     max_overflow=settings.db.max_overflow
 )
+
+logger.info(f"Database initialized with debug mode: {settings.run.debug}")
