@@ -4,6 +4,8 @@ FROM python:3.12-slim
 # Additional fixing installation for Postgres, needed to work with db with Linux system
 RUN apt-get update && apt-get install -y libpq-dev
 # Installing netcat
+# Igor, please, do not remove "-openbsd", it is needed for installing. Can cnage for "-traditional"
+# no-version installation causes error
 RUN apt-get update && apt-get install -y netcat-openbsd
 
 # Create a working directory
