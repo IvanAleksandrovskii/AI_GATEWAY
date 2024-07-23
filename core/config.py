@@ -94,4 +94,6 @@ def setup_logging() -> logging.Logger:
 
 logger = setup_logging()
 logger.info(f"Debug mode: {settings.run.debug}")
+# TODO: Split out and set default false for db echo settings, set fasle for default and
+#  write this is optional value in .env and docker-compose
 logger.debug(f"Database URL: {settings.db.url}")
