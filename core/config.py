@@ -21,6 +21,9 @@ DEBUG = os.getenv("DEBUG", "False").lower() in ('true', '1')
 
 TOKEN_EXPIRATION_DAYS = int(os.getenv("TOKEN_EXPIRATION_DAYS", "30"))
 
+HTTP_CLIENT_TIMEOUT = int(os.getenv("HTTP_CLIENT_TIMEOUT", "300"))
+HTTP_CLIENTS_MAX_KEEPALIVE_CONNECTIONS = int(os.getenv("HTTP_CLIENTS_MAX_KEEPALIVE_CONNECTIONS", "10"))
+
 
 class RunConfig(BaseModel):
     host: str = APP_RUN_HOST
@@ -51,8 +54,8 @@ class TokenConfig(BaseModel):
 
 
 class HTTPClientConfig(BaseModel):
-    timeout: int = 300
-    max_keepalive_connections: int = 10
+    timeout: int = HTTP_CLIENT_TIMEOUT
+    max_keepalive_connections: int = HTTP_CLIENTS_MAX_KEEPALIVE_CONNECTIONS
 
 
 class Settings(BaseSettings):

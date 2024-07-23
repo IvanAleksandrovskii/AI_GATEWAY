@@ -65,14 +65,20 @@ docker compose up --build
        - The number of days before the authentication token expires.
        - Example: `TOKEN_EXPIRATION_DAYS=30`
 
-   - **pgAdmin Configuration (Development Only)**
-     **Note**: pgAdmin should only be used in a development environment and not in production.
-     - `PGADMIN_DEFAULT_EMAIL=<your_pgadmin_email>`
-       - The default email address for pgAdmin login.
-       - Example: `PGADMIN_DEFAULT_EMAIL=admin@example.com`
-     - `PGADMIN_DEFAULT_PASSWORD=<your_pgadmin_password>`
-       - The default password for pgAdmin login.
-       - Example: `PGADMIN_DEFAULT_PASSWORD=admin_password`
+   - **HTTP Client Management Configuration:**
+     - `HTTP_CLIENT_TIMEOUT=<your_http_client_timeout_in_seconds>`
+       - Example: `HTTP_CLIENT_TIMEOUT=300`
+     - `HTTP_CLIENTS_MAX_KEEPALIVE_CONNECTIONS=<your_max_keepalive_clients_count>`
+       - Example: `HTTP_CLIENTS_MAX_KEEPALIVE_CONNECTIONS=10`
+
+  - **pgAdmin Configuration (Development Only)**
+    **Note**: pgAdmin should only be used in a development environment and not in production.
+    - `PGADMIN_DEFAULT_EMAIL=<your_pgadmin_email>`
+      - The default email address for pgAdmin login.
+      - Example: `PGADMIN_DEFAULT_EMAIL=admin@example.com`
+    - `PGADMIN_DEFAULT_PASSWORD=<your_pgadmin_password>`
+      - The default password for pgAdmin login.
+      - Example: `PGADMIN_DEFAULT_PASSWORD=admin_password`
 
 
 ### Get a token
