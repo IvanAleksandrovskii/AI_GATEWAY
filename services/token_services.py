@@ -24,7 +24,7 @@ async def create_token(db: AsyncSession, expiration_days=settings.token.expirati
     """
     token = generate_token()
     expires_at = datetime.now(timezone.utc) + timedelta(days=expiration_days)
-    db_token = Token(token=token, expires_at=expires_at)
+    db_token = Token(value=token, expires_at=expires_at)
     db.add(db_token)
     await db.commit()
     await db.refresh(db_token)
