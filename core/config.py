@@ -50,11 +50,17 @@ class TokenConfig(BaseModel):
     expiration_days: int = TOKEN_EXPIRATION_DAYS
 
 
+class HTTPClientConfig(BaseModel):
+    timeout: int = 300
+    max_keepalive_connections: int = 10
+
+
 class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     api: APIConfig = APIConfig()
     db: DBConfig = DBConfig()
     token: TokenConfig = TokenConfig()
+    http_client: HTTPClientConfig = HTTPClientConfig()
 
 
 settings = Settings()
@@ -86,4 +92,3 @@ def setup_logging() -> logging.Logger:
 logger = setup_logging()
 logger.info(f"Debug mode: {settings.run.debug}")
 logger.debug(f"Database URL: {settings.db.url}")
-

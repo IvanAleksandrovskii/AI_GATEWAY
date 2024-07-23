@@ -5,6 +5,7 @@ import httpx
 from asyncio import Lock
 
 from core import logger
+from core import settings
 
 
 class UberClient:
@@ -35,7 +36,8 @@ class UberClient:
 
 class ClientManager:
     # TODO: Make this configurable
-    def __init__(self, client_timeout=300, max_keepalive_connections=10):
+    def __init__(self, client_timeout=settings.http_client.timeout,
+                 max_keepalive_connections=settings.http_client.max_keepalive_connections):
         self.clients: List[UberClient] = []
         self.max_clients = max_keepalive_connections
         self.client_timeout = client_timeout
