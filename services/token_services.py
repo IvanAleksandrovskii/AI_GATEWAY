@@ -9,12 +9,18 @@ from core import settings
 from core.models import Token
 
 
-def generate_token(length=32):
+def generate_token(length=32) -> str:
+    """
+    Generate a random token.
+
+    :param length: Length of the token to generate.
+    :return: A randomly generated token string.
+    """
     alphabet = string.ascii_letters + string.digits
     return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 
-async def create_token(db: AsyncSession, expiration_days=settings.token.expiration_days):
+async def create_token(db: AsyncSession, expiration_days=settings.token.expiration_days) -> Token:
     """
     Create a new token with specified expiration time.
 
@@ -31,7 +37,7 @@ async def create_token(db: AsyncSession, expiration_days=settings.token.expirati
     return db_token
 
 
-async def validate_token(db: AsyncSession, token: str):
+async def validate_token(db: AsyncSession, token: str) -> bool:
     """
     Validate the given token.
 
@@ -42,13 +48,11 @@ async def validate_token(db: AsyncSession, token: str):
     result = await db.execute(select(Token).where(Token.value == token))
     db_token = result.scalars().first()
     if db_token:
-        if db_token.is_active is False:
-            return False
         return db_token.is_active
     return False
 
 
-async def get_latest_active_token(db: AsyncSession):
+async def get_latest_active_token(db: AsyncSession) -> Token | None:
     """
     Get the latest active token from the database.
 
@@ -68,9 +72,9 @@ async def get_latest_active_token(db: AsyncSession):
     return result.scalars().first()
 
 
-async def create_new_token_if_needed(db: AsyncSession):
+async def create_new_token_if_needed(db: AsyncSession) -> Token:
     """
-    Create a new token if no token is found an active one in the database.
+    Create a new token if no active token is found in the database.
 
     :param db: AsyncSession for database operations
     :return: Token object
@@ -82,6 +86,5 @@ async def create_new_token_if_needed(db: AsyncSession):
 
 # TODO: Idea how to clean up expired tokens
 # async def cleanup_expired_tokens(db: AsyncSession):
-#     current_time = datetime.now(timezone.utc)
 #     await db.execute(delete(Token).where(Token.is_active == False))
 #     await db.commit()
