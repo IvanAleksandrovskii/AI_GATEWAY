@@ -32,5 +32,3 @@ db_helper = DataBaseHelper(
     pool_size=settings.db.pool_size,
     max_overflow=settings.db.max_overflow
 )
-
-logger.info(f"Database initialized with debug mode: {settings.run.debug}")
