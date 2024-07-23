@@ -1,4 +1,3 @@
-import asyncio
 from typing import Optional, List
 import httpx
 from sqlalchemy.ext.asyncio import AsyncSession
