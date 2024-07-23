@@ -19,8 +19,5 @@ COPY . /app
 # Ensure start.sh has executable permissions
 RUN chmod +x /app/start.sh
 
-# Expose port
-EXPOSE 8000
-
 # Set the entrypoint to start.sh
 ENTRYPOINT ["/app/start.sh"]
