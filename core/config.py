@@ -1,3 +1,4 @@
+import logging
 import os
 
 from pydantic import BaseModel
@@ -16,7 +17,7 @@ POSTGRES_MAX_OVERFLOW = int(os.getenv("POSTGRES_MAX_OVERFLOW"))
 
 APP_RUN_HOST = str(os.getenv("APP_RUN_HOST"))
 APP_RUN_PORT = int(os.getenv("APP_RUN_PORT"))
-DEBUG = bool(os.getenv("DEBUG"))
+DEBUG = os.getenv("DEBUG", "False").lower() in ('true', '1')
 
 TOKEN_EXPIRATION_DAYS = int(os.getenv("TOKEN_EXPIRATION_DAYS", "30"))
 
@@ -58,7 +59,31 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-if settings.run.debug:
-    # TODO: prints in debug mode with every every time file uses settings as import runs.
-    #  For project start purposes keeping it for now here
-    print(f"Database URL: {settings.db.url}")
+
+# Setup logging
+def setup_logging() -> logging.Logger:
+    """
+    Set up logging configuration.
+
+    :return: Configured logger
+    """
+    log_level = logging.DEBUG if settings.run.debug else logging.INFO
+    logging.basicConfig(
+        level=log_level,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[logging.StreamHandler()]
+    )
+    new_logger = logging.getLogger()
+
+    # Hide too many logging information
+    logging.getLogger('httpx').setLevel(logging.WARNING)
+    logging.getLogger('httpcore').setLevel(logging.WARNING)
+    logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
+
+    return new_logger
+
+
+logger = setup_logging()
+logger.info(f"Debug mode: {settings.run.debug}")
+logger.debug(f"Database URL: {settings.db.url}")
+
