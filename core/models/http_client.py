@@ -66,6 +66,11 @@ class ClientManager:
             logger.info(f"Cleanup completed. {len(self.clients)} clients remaining.")
 
     async def get_client(self) -> UberClient:
+        """
+        Get an available client from the pool. If none available and we haven't reached the limit, create a new one.
+
+        :return: An available client
+        """
         async with self.lock:
             current_time = time.time()
             # Check for available non-busy clients
@@ -92,6 +97,7 @@ class ClientManager:
             return await self.get_client()
 
     async def dispose_all_clients(self) -> None:
+        """Dispose all clients."""
         self.is_shutting_down = True
         if self.cleanup_task:
             self.cleanup_task.cancel()
