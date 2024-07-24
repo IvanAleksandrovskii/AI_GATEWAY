@@ -5,6 +5,8 @@ from pydantic import BaseModel
 from pydantic import PostgresDsn
 from pydantic_settings import BaseSettings
 
+from pythonjsonlogger import jsonlogger
+
 from dotenv import load_dotenv
 
 
@@ -72,6 +74,7 @@ settings = Settings()
 
 
 # Setup logging
+# Setup logging
 def setup_logging() -> logging.Logger:
     """
     Set up logging configuration.
@@ -79,12 +82,15 @@ def setup_logging() -> logging.Logger:
     :return: Configured logger
     """
     log_level = logging.DEBUG if settings.run.debug else logging.INFO
-    logging.basicConfig(
-        level=log_level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[logging.StreamHandler()]
-    )
+
+    # Stream handler for console output
+    stream_handler = logging.StreamHandler()
+    stream_formatter = jsonlogger.JsonFormatter()
+    stream_handler.setFormatter(stream_formatter)
+
     new_logger = logging.getLogger()
+    new_logger.setLevel(log_level)
+    new_logger.addHandler(stream_handler)
 
     # Hide too many logging information
     logging.getLogger('httpx').setLevel(logging.WARNING)
