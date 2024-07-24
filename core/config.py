@@ -74,7 +74,6 @@ settings = Settings()
 
 
 # Setup logging
-# Setup logging
 def setup_logging() -> logging.Logger:
     """
     Set up logging configuration.
