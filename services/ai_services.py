@@ -23,28 +23,24 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
 
     for attempt in range(retries):
         try:
-            response = await client.request(
-                "POST",
+            client = await client_manager.get_client()
+            response = await client.post(
                 model.api_url,
                 json=model.get_request_payload(message),
                 headers=model.get_headers(),
                 timeout=30.0
             )
-            response.raise_for_status()  # Ensure that HTTP errors are raised
+            response.raise_for_status()
             return model.parse_response(response.json())
         except httpx.HTTPStatusError as e:
             if e.response.status_code == 429:
-                # Handle 429 status code: Too Many Requests
                 logger.warning(f"Rate limit exceeded for {model.name}")
                 return None
-            else:
-                # For other HTTP errors
-                logger.error(f"Failed to query {model.name}: {e}")
-                return None
+            logger.error(f"Failed to query {model.name}: {e}")
         except (httpx.RequestError, KeyError) as e:
-            # For other errors
             logger.error(f"Error querying {model.name}: {e}")
-            return None
+
+    return None
 
 
 async def get_ai_response(db: AsyncSession, message: str, specific_model: Optional[str] = None) -> Response:

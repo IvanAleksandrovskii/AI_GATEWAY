@@ -35,7 +35,6 @@ class UberClient:
 
 
 class ClientManager:
-    # TODO: Make this configurable
     def __init__(self, client_timeout=settings.http_client.timeout,
                  max_keepalive_connections=settings.http_client.max_keepalive_connections):
         self.clients: List[UberClient] = []
@@ -67,32 +66,32 @@ class ClientManager:
             logger.info(f"Cleanup completed. {len(self.clients)} clients remaining.")
 
     async def get_client(self) -> UberClient:
-        """
-        Get an available client or create a new one if needed.
-
-        :return: An UberClient instance
-        """
         async with self.lock:
-            # Try to find an available client
-            for client in self.clients:
-                if not client.is_busy:
-                    logger.debug(f"Reusing existing client: {id(client)}")
-                    return client
+            current_time = time.time()
+            # Check for available non-busy clients
+            available_clients = [client for client in self.clients if not client.is_busy]
+            logger.info(f"Cleanup completed. {len(self.clients)} clients remaining.")
+
+            if available_clients:
+                client = available_clients[0]
+                client.last_used = current_time
+                return client
 
             # If no available clients and we haven't reached the limit, create a new one
             if len(self.clients) < self.max_clients:
-                new_client = UberClient(httpx.AsyncClient(limits=self.limits))
+                new_client = UberClient(httpx.AsyncClient(
+                    timeout=self.client_timeout,
+                    limits=self.limits
+                ))
                 self.clients.append(new_client)
-                logger.info(f"Created new client: {id(new_client)}")
                 return new_client
 
-        # If all clients are busy, and we've reached the limit, wait and try again
-        logger.warning("All clients busy. Waiting for an available client.")
-        await asyncio.sleep(1)
-        return await self.get_client()
+            # If we've reached the limit, wait for an available client
+            logger.warning("All clients busy. Waiting for an available client.")
+            await asyncio.sleep(1)
+            return await self.get_client()
 
     async def dispose_all_clients(self) -> None:
-        """Dispose of all clients during shutdown."""
         self.is_shutting_down = True
         if self.cleanup_task:
             self.cleanup_task.cancel()
