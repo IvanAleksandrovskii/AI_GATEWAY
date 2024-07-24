@@ -28,7 +28,7 @@ class DataBaseHelper:
 
 db_helper = DataBaseHelper(
     url=str(settings.db.url),
-    echo=settings.run.debug,
+    echo=settings.db.echo,
     pool_size=settings.db.pool_size,
     max_overflow=settings.db.max_overflow
 )

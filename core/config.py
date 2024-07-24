@@ -14,6 +14,7 @@ POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 POSTGRES_POOL_SIZE = int(os.getenv("POSTGRES_POOL_SIZE"))
 POSTGRES_MAX_OVERFLOW = int(os.getenv("POSTGRES_MAX_OVERFLOW"))
+POSTGRES_ECHO = os.getenv("POSTGRES_ECHO", "False").lower() in ('true', '1')
 
 APP_RUN_HOST = str(os.getenv("APP_RUN_HOST"))
 APP_RUN_PORT = int(os.getenv("APP_RUN_PORT"))
@@ -39,6 +40,7 @@ class DBConfig(BaseModel):
     url: PostgresDsn = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@pg:5432/{POSTGRES_DB}"
     pool_size: int = POSTGRES_POOL_SIZE
     max_overflow: int = POSTGRES_MAX_OVERFLOW
+    echo: bool = POSTGRES_ECHO
 
     naming_convention: dict[str, str] = {
         "ix": "ix_%(column_0_label)s",
@@ -94,6 +96,7 @@ def setup_logging() -> logging.Logger:
 
 logger = setup_logging()
 logger.info(f"Debug mode: {settings.run.debug}")
-# TODO: Split out and set default false for db echo settings, set fasle for default and
-#  write this is optional value in .env and docker-compose
-logger.debug(f"Database URL: {settings.db.url}")
+if settings.db.echo:
+    logger.warning(f"Database echo is enabled.")
+    logger.info(f"Database echo: {settings.db.echo}")
+    logger.info(f"Database URL: {settings.db.url}")

@@ -48,6 +48,8 @@ docker compose up --build
      - `POSTGRES_MAX_OVERFLOW=<your_postgres_max_overflow>`
        - The maximum number of connections that can be created above the pool size.
        - Example: `POSTGRES_MAX_OVERFLOW=10`
+     - `POSTGRES_ECHO=<1>`
+       - Use only if database echo for debug needed.
     
    - **Application Configuration:**
      - `APP_RUN_HOST=<your_app_run_host>`

@@ -36,8 +36,7 @@ main_app = FastAPI(lifespan=lifespan)
 
 main_app.include_router(api_router, prefix=settings.api.prefix, tags=["AI"])
 
-# TODO: WARNING! DO NOT USE IN PRODUCTION reload=True (maybe :) , looks like it's unsafe)
-#  can set with settings.run.debug ?
+
 if __name__ == "__main__":
     uvicorn.run("main:main_app", host=settings.run.host, port=settings.run.port,
-                reload=True)
+                reload=settings.run.debug)
