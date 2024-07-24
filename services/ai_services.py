@@ -22,8 +22,8 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
 
     for attempt in range(retries):
         try:
-            client = await client_manager.get_client()
-            response = await client.post(
+            uber_client = await client_manager.get_client()
+            response = await uber_client.client.post(
                 model.api_url,
                 json=model.get_request_payload(message),
                 headers=model.get_headers(),
