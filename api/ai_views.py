@@ -1,6 +1,6 @@
 from typing import Optional, List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.dependencies import validate_token_header
@@ -19,12 +19,21 @@ async def process_message(
     db: AsyncSession = Depends(db_helper.session_getter),
     token: str = Depends(validate_token_header)
 ):
-    return await get_ai_response(db, message.content, ai_model)
+    """Process a message and return an AI-generated response."""
+    try:
+        return await get_ai_response(db, message.content, ai_model)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 
+# TODO: Need to improve for business logic
 @router.get("/models/", response_model=List[str])
 async def get_all_ai_models(
     db: AsyncSession = Depends(db_helper.session_getter),
     token: str = Depends(validate_token_header)
 ):
-    return await get_ai_models(db)
+    """List all available AI models."""
+    try:
+        return await get_ai_models(db)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
