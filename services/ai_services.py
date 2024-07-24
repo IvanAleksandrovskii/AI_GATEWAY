@@ -18,7 +18,6 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
     :param message: User's input message
     :return: AI-generated response or None if request fails
     """
-    client = await client_manager.get_client()
     retries = 2  # Number of retries
 
     for attempt in range(retries):
