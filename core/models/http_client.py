@@ -30,6 +30,7 @@ class UberClient:
             raise
         finally:
             self.is_busy = False
+            self.last_used = time.time()
 
 
 class ClientManager:
