@@ -22,7 +22,6 @@ class UberClient:
         :param kwargs: Keyword arguments for the request
         :return: HTTP response
         """
-        self.is_busy = True
         try:
             response = await self.client.request(*args, **kwargs)
             return response
@@ -31,7 +30,6 @@ class UberClient:
             raise
         finally:
             self.is_busy = False
-            self.last_used = time.time()
 
 
 class ClientManager:
@@ -79,6 +77,8 @@ class ClientManager:
 
             if available_clients:
                 client = available_clients[0]
+                # Mark the client as busy
+                client.is_busy = True
                 client.last_used = current_time
                 return client
 
@@ -88,6 +88,9 @@ class ClientManager:
                     timeout=self.client_timeout,
                     limits=self.limits
                 ))
+                # Mark the new client as busy
+                new_client.is_busy = True
+                new_client.last_used = current_time
                 self.clients.append(new_client)
                 return new_client
 
@@ -107,8 +110,8 @@ class ClientManager:
                 pass
 
         async with self.lock:
-            for client in self.clients:
-                await client.client.aclose()
+            for uber_client in self.clients:
+                await uber_client.client.aclose()
             self.clients.clear()
         logger.info("All clients disposed.")
 
