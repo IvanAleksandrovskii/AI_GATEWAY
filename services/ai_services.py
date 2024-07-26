@@ -19,10 +19,10 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
     :return: AI-generated response or None if request fails
     """
     retries = 2  # Number of retries
+    uber_client = await client_manager.get_client()
 
     for attempt in range(retries):
         try:
-            uber_client = await client_manager.get_client()
             response = await uber_client.client.post(
                 model.api_url,
                 json=model.get_request_payload(message),
@@ -30,7 +30,7 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
                 timeout=30.0
             )
             response.raise_for_status()
-            return model.parse_response(response.json())
+            return await model.parse_response(response.json())
         except httpx.HTTPStatusError as e:
             if e.response.status_code == 429:
                 logger.warning(f"Rate limit exceeded for {model.name}")
@@ -38,6 +38,8 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
             logger.error(f"Failed to query {model.name}: {e}")
         except (httpx.RequestError, KeyError) as e:
             logger.error(f"Error querying {model.name}: {e}")
+        finally:
+            uber_client.is_busy = False
 
     return None
 
