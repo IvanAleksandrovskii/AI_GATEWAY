@@ -19,6 +19,7 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
     :return: AI-generated response or None if request fails
     """
     retries = 2  # Number of retries
+    uber_client = None
 
     for attempt in range(retries):
         try:
@@ -38,6 +39,9 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
             logger.error(f"Failed to query {model.name}: {e}")
         except (httpx.RequestError, KeyError) as e:
             logger.error(f"Error querying {model.name}: {e}")
+        finally:
+            if uber_client:
+                await client_manager.release_client(uber_client)
 
     return None
 

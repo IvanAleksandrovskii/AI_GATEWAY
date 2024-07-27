@@ -28,8 +28,8 @@ class UberClient:
         except httpx.RequestError as e:
             logger.error(f"Request error: {e}")
             raise
+        # TODO: for now keep it here, cause in fact it's a time will client be marked as used for httpx async client
         finally:
-            self.is_busy = False
             self.last_used = time.time()
 
 
@@ -99,6 +99,14 @@ class ClientManager:
             logger.warning("All clients busy. Waiting for an available client.")
             await asyncio.sleep(1)
             return await self.get_client()
+
+    async def release_client(self, client: UberClient):
+        """Release a client, make it not busy anymore."""
+        async with self.lock:
+            if client in self.clients:
+                client.is_busy = False
+                # TODO: Check todo in UberClient
+                # client.last_used = time.time()
 
     async def dispose_all_clients(self) -> None:
         """Dispose all clients."""
