@@ -36,7 +36,7 @@ class AIProvider(Base):
         return {"Authorization": f"Bearer {self.api_key}"}
 
 # TODO: for both OpenAI and AIMLapi is the same (as docs says), need to improve
-    def parse_response(self, response_data: Dict[str, Any]) -> Optional[str]:
+    async def parse_response(self, response_data: Dict[str, Any]) -> Optional[str]:
         """
         Parse the response from the AI provider.
 

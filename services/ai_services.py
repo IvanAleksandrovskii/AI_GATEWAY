@@ -30,7 +30,7 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
                 timeout=30.0
             )
             response.raise_for_status()
-            return model.parse_response(response.json())
+            return await model.parse_response(response.json())
         except httpx.HTTPStatusError as e:
             if e.response.status_code == 429:
                 logger.warning(f"Rate limit exceeded for {model.name}")
