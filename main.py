@@ -3,6 +3,7 @@ from typing import AsyncGenerator
 
 from fastapi import FastAPI
 import uvicorn
+from fastapi.responses import ORJSONResponse
 
 from core import settings
 
@@ -32,7 +33,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     #     await cleanup_expired_tokens(session)
 
 
-main_app = FastAPI(lifespan=lifespan)
+main_app = FastAPI(
+    default_response_class=ORJSONResponse,
+    lifespan=lifespan,
+)
 
 main_app.include_router(api_router, prefix=settings.api.prefix, tags=["AI"])
 
