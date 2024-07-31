@@ -105,7 +105,7 @@ def setup_logging() -> logging.Logger:
 # Set up logger
 logger = setup_logging()
 # Debug mode info
-logger.info(f"Debug mode: %r!", settings.run.debug)
+logger.info(f"Debug mode: %s", settings.run.debug)
 if settings.db.echo:
     logger.warning(f"Database echo is enabled.")
-    logger.info(f"Database URL: %r!", settings.db.url)
+    logger.info(f"Database URL: %s", settings.db.url)

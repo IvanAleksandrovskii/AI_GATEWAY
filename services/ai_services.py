@@ -34,11 +34,11 @@ async def query_ai_provider(model: AIProvider, message: str) -> Optional[str]:
             return await model.parse_response(response.json())
         except httpx.HTTPStatusError as e:
             if e.response.status_code == 429:
-                logger.warning(f"Rate limit exceeded for %r!", model.name)
+                logger.warning(f"Rate limit exceeded for %s", model.name)
                 return None
-            logger.error(f"Failed to query %r!: %s", model.name, e)
+            logger.error(f"Failed to query %s: %s", model.name, e)
         except (httpx.RequestError, KeyError) as e:
-            logger.error(f"Error querying %r!: %s", model.name, e)
+            logger.error(f"Error querying %s: %s", model.name, e)
         finally:
             if uber_client:
                 await client_manager.release_client(uber_client)

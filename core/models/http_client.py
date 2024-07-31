@@ -26,7 +26,7 @@ class UberClient:
             response = await self.client.request(*args, **kwargs)
             return response
         except httpx.RequestError as e:
-            logger.error(f"Request error: %r!", e)
+            logger.error(f"Request error: %s", e)
             raise
         # TODO: for now keep it here, cause in fact it's a time will client be marked as used for httpx async client
         finally:
