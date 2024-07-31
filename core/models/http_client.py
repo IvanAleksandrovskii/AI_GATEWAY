@@ -26,7 +26,7 @@ class UberClient:
             response = await self.client.request(*args, **kwargs)
             return response
         except httpx.RequestError as e:
-            logger.error(f"Request error: {e}")
+            logger.error(f"Request error: %r!", e)
             raise
         # TODO: for now keep it here, cause in fact it's a time will client be marked as used for httpx async client
         finally:
@@ -62,7 +62,7 @@ class ClientManager:
             current_time = time.time()
             self.clients = [client for client in self.clients
                             if client.is_busy or (current_time - client.last_used < self.client_timeout)]
-            logger.info(f"Cleanup completed. {len(self.clients)} clients remaining.")
+            logger.info(f"Cleanup completed. %s clients remaining.", len(self.clients))
 
     async def get_client(self) -> UberClient:
         """
@@ -74,7 +74,7 @@ class ClientManager:
             current_time = time.time()
             # Check for available non-busy clients
             available_clients = [client for client in self.clients if not client.is_busy]
-            logger.info(f"Cleanup completed. {len(self.clients)} clients remaining.")
+            logger.info(f"Cleanup completed. %s clients remaining.", len(available_clients))
 
             if available_clients:
                 client = available_clients[0]
